@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Image viewer</string>
+    <string name="search">Type to search…</string>
+    <string name="textIsEmpty">No keywords entered</string>
+    <string name="save">Save</string>
+    <string name="acceptExit">To exit app press Back button one more time.</string>
+    <string name="errorWhileLoading">There was an error happened while loading image.</string>
+    <string name="pleaseWait">Loading high resolution, please wait.</string>
+    <string name="savingWait">Saving image, please wait and then check your gallery.</string>
+</resources>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/LLAllMainActivity"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="@color/colorsWhite"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/RLFull"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/IVThumb"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/IVFull"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <LinearLayout
+            android:id="@+id/LLSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/mainActivityCornerMargin">
+
+            <ImageView
+                android:id="@+id/IVSave"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@android:drawable/ic_menu_save"
+                android:backgroundTint="@color/colorBlack"/>
+
+            <TextView
+                android:id="@+id/TVSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+                android:textSize="19sp"
+                android:textColor="@color/colorBlack"
+                android:layout_gravity="center"
+                />
+
+        </LinearLayout>
+        <ProgressBar
+            android:id="@+id/PB_load_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:visibility="visible"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/TVToolbarText"
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:textAllCaps="false"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="23sp"
+        android:textColor="@color/colorBlack"
+        android:focusable="true"
+        android:text="@string/app_name">
+    </TextView>
+
+<!--    also here will be search widget     -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/CVSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorsWhite"
+        app:cardElevation="4dp"
+        android:outlineAmbientShadowColor="@color/colorAccent"
+        android:outlineSpotShadowColor="@color/colorAccent"
+        app:cardCornerRadius="15dp"
+        app:cardUseCompatPadding="true"
+        android:layout_marginStart="@dimen/mainActivityCornerMargin"
+        android:layout_marginEnd="@dimen/mainActivityCornerMargin">
+
+        <EditText
+            android:id="@+id/ETSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/search"
+            android:textColorHint="@color/black20Per"
+            android:inputType="text"
+            android:imeOptions="actionDone"
+            tools:ignore="TextFields"
+            android:layout_marginStart="@dimen/mainActivityCornerMargin"
+            android:layout_marginEnd="@dimen/mainActivityCornerMargin"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RVPhotos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/mainActivityCornerMargin"/>
+
+    <ProgressBar
+        android:id="@+id/PBImagesMain"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+</LinearLayout>

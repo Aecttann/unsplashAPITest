@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Image viewer</string>
+    <string name="search">Пошук...</string>
+    <string name="textIsEmpty">Ключові слова відсутні</string>
+    <string name="save">Зберегти</string>
+    <string name="errorWhileLoading">Під час завантаження сталась помилка</string>
+    <string name="pleaseWait">Завантаження у високій роздільності</string>
+    <string name="savingWait">Триває завантаження, будь ласка, зачекайте.</string>
+    <string name="acceptExit">Для виходу натисніть ще раз</string>
+</resources>
