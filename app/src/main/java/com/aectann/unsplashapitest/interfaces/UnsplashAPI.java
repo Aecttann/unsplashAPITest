@@ -12,8 +12,8 @@ import retrofit2.http.Query;
 
 public interface UnsplashAPI {
 
-    @GET("photos")
-    Call<List<POJOPhotos>> getPhotos(@Header("Authorization") String ACCESS_KEY);
+//    @GET("photos")
+//    Call<List<POJOPhotos>> getPhotos(@Header("Authorization") String ACCESS_KEY);
     @GET("photos/random")
     Call<List<POJOPhotos>> getRandomPhotos(@Header("Authorization") String ACCESS_KEY,
                                            @Query("count") String count);

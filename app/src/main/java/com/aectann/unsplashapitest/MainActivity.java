@@ -40,7 +40,6 @@ import com.aectann.unsplashapitest.additional.AppPreferences;
 import com.aectann.unsplashapitest.interfaces.UnsplashAPI;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -56,17 +55,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Retrofit retrofit;
-    private UnsplashAPI unsplashAPIObject;
-    private UnsplashAPI unsplashAPIObject2;
     AdapterPhotos adapterPhotos;
-    private Target target;
 
     private String BASE_URL = "https://api.unsplash.com/";
     private final static String TAG = "MainActivity";
     int searchPageCounter = 1;
     String text;
-    int onBackPressedCounter = 0;
     private List<String> arrayIDs;
     private List<String> arrayURLsRegular;
     private List<String> arrayURLsFull;
@@ -165,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        unsplashAPIObject = retrofit.create(UnsplashAPI.class);
+        UnsplashAPI unsplashAPIObject = retrofit.create(UnsplashAPI.class);
         String ACCESS_TOKEN = AppPreferences.getAccessKey(this);
         String count = "20";
         Call<List<POJOPhotos>> call = unsplashAPIObject.getRandomPhotos("Client-ID " + ACCESS_TOKEN, count);
@@ -197,25 +191,34 @@ public class MainActivity extends AppCompatActivity {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        unsplashAPIObject2 = retrofit.create(UnsplashAPI.class);
+        UnsplashAPI unsplashAPIObject2 = retrofit.create(UnsplashAPI.class);
         String ACCESS_TOKEN = AppPreferences.getAccessKey(this);
-        Call<POJOSearchPhotos> call = unsplashAPIObject.searchPhotos("Client-ID " + ACCESS_TOKEN, searchTerms, page, per_page);
+        Call<POJOSearchPhotos> call = unsplashAPIObject2.searchPhotos("Client-ID " + ACCESS_TOKEN, searchTerms, page, per_page);
         try {
             Response<POJOSearchPhotos> response = call.execute();
             int statusCode = response.code();
-            if (statusCode == 200) {
-                Log.d(TAG, "response.code() searchPhotos: " + 200);
-                for(int i = 0; i <= Objects.requireNonNull(response.body()).getResults().size() - 1; i++){
-                    arrayIDs.add(response.body().getResults().get(i).getId());                              //id photo
-                    arrayURLsThumb.add(response.body().getResults().get(i).getUrls().getThumb());           //thumb data
-                    arrayURLsRaw.add(response.body().getResults().get(i).getUrls().getRaw());               //raw   data
-                    arrayURLsFull.add(response.body().getResults().get(i).getUrls().getFull());             //full  data
-                    arrayURLsRegular.add(response.body().getResults().get(i).getUrls().getRegular());       //full  data
+//            String isDownloadAvailable = AppPreferences.getIsDownloadAvailable(this);
+//            if(!isDownloadAvailable.equals("false")){
+                if (statusCode == 200){      //infinity queries to API will starts
+                    if(Objects.requireNonNull(response.body()).getTotalPages() <= Integer.parseInt(page)){
+                        Log.d(TAG, "Last load session");
+                        AppPreferences.setIsDownloadAvailable(this, "false");
+                    }
+                    Log.d(TAG, "response.code() searchPhotos: " + 200);
+                    for (int i = 0; i <= Objects.requireNonNull(response.body()).getResults().size() - 1; i++) {
+                        arrayIDs.add(response.body().getResults().get(i).getId());                              //id photo
+                        arrayURLsThumb.add(response.body().getResults().get(i).getUrls().getThumb());           //thumb data
+                        arrayURLsRaw.add(response.body().getResults().get(i).getUrls().getRaw());               //raw   data
+                        arrayURLsFull.add(response.body().getResults().get(i).getUrls().getFull());             //full  data
+                        arrayURLsRegular.add(response.body().getResults().get(i).getUrls().getRegular());       //full  data
+                    }
+                } else{
+                    //everything except of 200
+                    Log.d(TAG, "response.code() searchPhotos: " + statusCode);
                 }
-            } else{
-                //everything except of 200
-                Log.d(TAG, "response.code() searchPhotos: " + statusCode);
-            }
+//            } else{
+//                Log.d(TAG, "Dowload isn't available due to the end of images.");
+//            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -231,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //call it from adapter - fullscreen image with download button
-    public void itemClickHandler(String id, String imageURLThumb, String imageURLFull, String imageURLRegular){
+    public void itemClickHandler(/*String id, */String imageURLThumb,/* String imageURLFull,*/ String imageURLRegular){
         RLFull = findViewById(R.id.RLFull);
         RLFull.setVisibility(View.VISIBLE);
         IVFull = findViewById(R.id.IVFull);
@@ -265,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         LLSave.setOnClickListener(v->{
-            SaveImage(this, imageURLRegular, id);
+            SaveImage(this, imageURLRegular/*, id*/);
 //            Toast.makeText(MainActivity.this, getResources().getString(R.string.savingWait), Toast.LENGTH_SHORT).show();
         });
     }
@@ -282,8 +285,9 @@ public class MainActivity extends AppCompatActivity {
         arrayURLsFull.clear();
     }
 
-    private static void SaveImage(final Context context, final String MyUrl, final String id){
+    private static void SaveImage(final Context context, final String MyUrl/*, final String id*/){
         final ProgressDialog progress = new ProgressDialog(context);
+        @SuppressWarnings("ResultOfMethodCallIgnored")
         class SaveThisImage extends AsyncTask<Void, Void, Void> {
             @Override
             protected void onPreExecute() {
@@ -315,12 +319,13 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     } finally {
                         try {
-                            fos.close();
+                            Objects.requireNonNull(fos).close();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
-                }catch (Exception e){
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }
                 return null;
             }
@@ -355,6 +360,7 @@ public class MainActivity extends AppCompatActivity {
 //        }
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class ATdownloadPhotos extends AsyncTask<Void, Void, Void> {
 
         public ATdownloadPhotos(){
@@ -377,6 +383,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class ATSearchPhotos extends AsyncTask<Void, Void, Void> {
 
         String mSearchTerms;

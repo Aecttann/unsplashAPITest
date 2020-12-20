@@ -7,4 +7,6 @@
     <string name="errorWhileLoading">There was an error happened while loading image.</string>
     <string name="pleaseWait">Loading high resolution, please wait.</string>
     <string name="savingWait">Saving image, please wait and then check your gallery.</string>
+    <string name="thumbnail" translatable="false">thumbnail</string>
+    <string name="normalImage" translatable="false">normalImage</string>
 </resources>

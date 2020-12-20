@@ -22,11 +22,13 @@
         <ImageView
             android:id="@+id/IVThumb"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:contentDescription="@string/thumbnail" />
         <ImageView
             android:id="@+id/IVFull"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:contentDescription="@string/thumbnail" />
         <LinearLayout
             android:id="@+id/LLSave"
             android:layout_width="wrap_content"
@@ -34,14 +36,17 @@
             android:orientation="vertical"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/mainActivityCornerMargin">
+            android:layout_marginBottom="@dimen/mainActivityCornerMargin"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:id="@+id/IVSave"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@android:drawable/ic_menu_save"
-                android:backgroundTint="@color/colorBlack"/>
+                android:backgroundTint="@color/colorBlack"
+                android:contentDescription="@string/save"
+                />
 
             <TextView
                 android:id="@+id/TVSave"
@@ -91,7 +96,8 @@
         app:cardCornerRadius="15dp"
         app:cardUseCompatPadding="true"
         android:layout_marginStart="@dimen/mainActivityCornerMargin"
-        android:layout_marginEnd="@dimen/mainActivityCornerMargin">
+        android:layout_marginEnd="@dimen/mainActivityCornerMargin"
+        tools:targetApi="p">
 
         <EditText
             android:id="@+id/ETSearch"
@@ -104,7 +110,7 @@
             tools:ignore="TextFields"
             android:layout_marginStart="@dimen/mainActivityCornerMargin"
             android:layout_marginEnd="@dimen/mainActivityCornerMargin"
-            />
+            android:importantForAutofill="no" />
 
     </androidx.cardview.widget.CardView>
 

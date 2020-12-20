@@ -1,6 +1,7 @@
 package com.aectann.unsplashapitest.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,17 +56,22 @@ public class AdapterPhotos extends RecyclerView.Adapter<AdapterPhotos.ItemHolder
 
     @Override
     public void onBindViewHolder(@NotNull final ItemHolder holder, final int position) {
-        String id = mArrayIDs.get(position);
+//        String id = mArrayIDs.get(position);
         String photoURLThumb = mArrayPhotoURLsThumb.get(position);
-        String photoURLRaw = mArrayPhotoURLsRaw.get(position);
-        String photoURLFull = mArrayPhotoURLsFull.get(position);
+//        String photoURLRaw = mArrayPhotoURLsRaw.get(position);
+//        String photoURLFull = mArrayPhotoURLsFull.get(position);
 
         Picasso.get().load(photoURLThumb).into(holder.IVRVItem);
 
         String searchingStatus = AppPreferences.getSearchingStatus(mContext);
         if(position == getItemCount() - 1){
             if(searchingStatus.equals("true")){
-                ((MainActivity) mContext).downloadMoreSearchPhotos();
+                String isDownloadAvailable = AppPreferences.getIsDownloadAvailable(mContext);
+                if(!isDownloadAvailable.equals("false")){
+                    ((MainActivity) mContext).downloadMoreSearchPhotos();
+                } else{
+                Log.d(TAG, "Dowload isn't available due to the end of images.");
+            }
             } else /*if(searchingStatus.equals("false"))*/{
                 ((MainActivity) mContext).downloadMoreRandomPhotos();
             }
@@ -88,11 +94,11 @@ public class AdapterPhotos extends RecyclerView.Adapter<AdapterPhotos.ItemHolder
         }
 
         public void onClick(View v) {
-            String id = mArrayIDs.get(getAdapterPosition());
+//            String id = mArrayIDs.get(getAdapterPosition());
             String clickedThumbURL = mArrayPhotoURLsThumb.get(getAdapterPosition());
-            String clickedFullURL = mArrayPhotoURLsFull.get(getAdapterPosition());
+//            String clickedFullURL = mArrayPhotoURLsFull.get(getAdapterPosition());
             String clickedRegularURL = mArrayPhotoURLsFull.get(getAdapterPosition());
-            ((MainActivity) mContext).itemClickHandler(id, clickedThumbURL, clickedFullURL, clickedRegularURL);
+            ((MainActivity) mContext).itemClickHandler(/*id,*/ clickedThumbURL, /*clickedFullURL,*/ clickedRegularURL);
         }
     }
 }

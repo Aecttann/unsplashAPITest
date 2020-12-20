@@ -22,16 +22,16 @@ public class AppPreferences {
     }
 
     //сохранить / получить Secret key
-    public static String getSecretKey(Context ctx) {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        return mPrefs.getString("secretKey", "");
-    }
-    public static void setSecretKey(Context ctx, String secretKey) {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        mPrefsEditor = mPrefs.edit();
-        mPrefsEditor.putString("secretKey", secretKey);
-        mPrefsEditor.apply();
-    }
+//    public static String getSecretKey(Context ctx) {
+//        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+//        return mPrefs.getString("secretKey", "");
+//    }
+//    public static void setSecretKey(Context ctx, String secretKey) {
+//        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+//        mPrefsEditor = mPrefs.edit();
+//        mPrefsEditor.putString("secretKey", secretKey);
+//        mPrefsEditor.apply();
+//    }
 
     //сохранить / получить searchingStatus
     public static String getSearchingStatus(Context ctx) {
@@ -42,6 +42,18 @@ public class AppPreferences {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         mPrefsEditor = mPrefs.edit();
         mPrefsEditor.putString("searchingStatus", searchingStatus);
+        mPrefsEditor.apply();
+    }
+
+    //set get isDownloadAvailable
+    public static String getIsDownloadAvailable(Context ctx) {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return mPrefs.getString("isDownloadAvailable", "");
+    }
+    public static void setIsDownloadAvailable(Context ctx, String isDownloadAvailable) {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        mPrefsEditor = mPrefs.edit();
+        mPrefsEditor.putString("isDownloadAvailable", isDownloadAvailable);
         mPrefsEditor.apply();
     }
 
